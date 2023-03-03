@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\User\OneDrive\Ambiente de Trabalho\UNI\GC\projeto\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\User\OneDrive\Ambiente de Trabalho\UNI\GC\projeto\generator\src\Cone.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\User\OneDrive\Ambiente de Trabalho\UNI\GC\projeto\generator\src\Plane.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\User\OneDrive\Ambiente de Trabalho\UNI\GC\projeto\generator\src\Triangle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\User\OneDrive\Ambiente de Trabalho\UNI\GC\projeto\generator\src\Sphere.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\User\OneDrive\Ambiente de Trabalho\UNI\GC\projeto\generator\src\Box.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\User\OneDrive\Ambiente de Trabalho\UNI\GC\projeto\generator\src\Shape.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\User\OneDrive\Ambiente de Trabalho\UNI\GC\projeto\generator\src\Point.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\User\OneDrive\Ambiente de Trabalho\UNI\GC\projeto\generator\include\Cone.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\User\OneDrive\Ambiente de Trabalho\UNI\GC\projeto\generator\include\Plane.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\User\OneDrive\Ambiente de Trabalho\UNI\GC\projeto\generator\include\Triangle.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\User\OneDrive\Ambiente de Trabalho\UNI\GC\projeto\generator\include\Sphere.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\User\OneDrive\Ambiente de Trabalho\UNI\GC\projeto\generator\include\Box.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\User\OneDrive\Ambiente de Trabalho\UNI\GC\projeto\generator\include\Shape.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\User\OneDrive\Ambiente de Trabalho\UNI\GC\projeto\generator\include\Point.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\User\OneDrive\Ambiente de Trabalho\UNI\GC\projeto\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{3A9DF323-F580-3DE5-B81F-29A3EBF53587}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{9FDB4CC8-2C8E-3973-8FF2-937C2C729D64}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
