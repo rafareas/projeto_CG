@@ -10,12 +10,11 @@
 using namespace std;
 
 vector<Triangle> allTriangles;
-float myX = 0.0;
-float myZ = 0.0;
-float myRadius = 0.0;
-float myAlpha = 0.0;
-float myBeta = 0.0;
-
+float camX = 0.0;
+float camY = 0.0;
+float camZ = 5.0;
+float camYaw = 0.0;
+float camPitch = 0.0;
 
 
 void changeSize(int w, int h)
@@ -47,9 +46,9 @@ void renderScene(void)
 	glLoadIdentity();
 	float radius = 5.0 ;
 	glLoadIdentity();
-	gluLookAt(10 + radius + myRadius, 10 + radius + myX + myRadius, 10 + radius + myZ + myRadius,
-		0.0 + (sin(myAlpha) * cos(myBeta) * radius), 0.0 + (sin(myAlpha) * cos(myBeta) * radius), 0.0 + (cos(myAlpha) * cos(myBeta) * radius),
-		0.0f, 1.0f, 0.0f);
+	gluLookAt(camX, camY, camZ,         // Camera position
+		camX + sin(camYaw), camY + sin(camPitch), camZ - cos(camYaw), // Look at point
+		0.0, 1.0, 0.0);           // Up vector
 
 	// put axis drawing in here
 	glBegin(GL_LINES);
@@ -186,39 +185,42 @@ void ReadFile(string shape)
 }
 
 
-void processKeys(unsigned char key, int xx, int yy) {
+void processKeys(unsigned char key, int xx , int yy) {
 
+	float moveSpeed = 0.1;
+	float rotateSpeed = 0.05;
 
-	if (key == 'w') {
-		myX += 0.5;
+	switch (key){
+	case 'w': // Move camera forward
+		camX += moveSpeed * sin(camYaw);
+		camZ -= moveSpeed * cos(camYaw);
+		break;
+	case 's': // Move camera backward
+		camX -= moveSpeed * sin(camYaw);
+		camZ += moveSpeed * cos(camYaw);
+		break;
+	case 'd': // Move camera left
+		camX += moveSpeed * sin(camYaw + 90 * (M_PI / 180.0));
+		camZ -= moveSpeed * cos(camYaw + 90 * (M_PI / 180.0));
+		break;
+	case 'a': // Move camera right
+		camX += moveSpeed * sin(camYaw - 90 * (M_PI / 180.0));
+		camZ -= moveSpeed * cos(camYaw - 90 * (M_PI / 180.0));
+		break;
+	case 'e': // Rotate camera left
+		camYaw += rotateSpeed;
+		break;
+	case 'q': // Rotate camera right
+		camYaw -= rotateSpeed;
+		break;
+	case 'i': // Move camera up
+		camY += moveSpeed;
+		break;
+	case 'k': // Move camera down
+		camY -= moveSpeed;
+		break;
 	}
-	if (key == 's') {
-		myX -= 0.5;
-	}
-	if (key == 'd') {
-		myZ -= 0.5;
-	}
-	if (key == 'a') {
-		myZ += 0.5;
-	}
-	if (key == '+') {
-		myRadius -= 0.5;
-	}
-	if (key == '-') {
-		myRadius += 0.5;
-	}
-	if (key == 'u') {
-		myBeta += 0.5;
-	}
-	if (key == 'j') {
-		myBeta -= 0.5;
-	}
-	if (key == 'h') {
-		myAlpha += 0.5;
-	}
-	if (key == 'k') {
-		myAlpha -= 0.5;
-	}
+
 
 	glutPostRedisplay();
 
@@ -228,7 +230,26 @@ void processKeys(unsigned char key, int xx, int yy) {
 void processSpecialKeys(int key, int xx, int yy) {
 
 	// put code to process special keys in here
+	float moveSpeed = 0.1;
+	float rotateSpeed = 0.05;
 
+	switch (key)
+	{
+	case GLUT_KEY_UP: // Move camera forward
+		camX += moveSpeed * sin(camYaw);
+		camZ -= moveSpeed * cos(camYaw);
+		break;
+	case GLUT_KEY_DOWN: // Move camera backward
+		camX -= moveSpeed * sin(camYaw);
+		camZ += moveSpeed * cos(camYaw);
+		break;
+	case GLUT_KEY_LEFT: // Rotate camera left
+		camYaw += rotateSpeed;
+		break;
+	case GLUT_KEY_RIGHT: // Rotate camera right
+		camYaw -= rotateSpeed;
+		break;
+	}
 }
 
 
