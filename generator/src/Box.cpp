@@ -12,11 +12,10 @@ void Box::generateTriangles(int size, int divisions)
     Triangle t1, t2;
 
     // Create the bottom face of the box
-    for (i = 0; i < divisions; i++)
-    {
+    for (i = 0; i < divisions; i++){
+
         divisionSize = -radius + i * squareSize;
-        for (j = 0; j < divisions; j++)
-        {
+        for (j = 0; j < divisions; j++){
             currentdivision = radius - j * squareSize;
             p1 = Point(divisionSize, -radius, currentdivision);
             p2 = Point(divisionSize + squareSize, -radius, currentdivision);

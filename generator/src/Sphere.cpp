@@ -5,8 +5,8 @@
 
 void Sphere::generateTriangles(int size, int stacks, int slices)
 {
-    float radius = size / 2.0;
-    float slicedistance = size * 1.0 / stacks;
+    float radius = size / 1.0;
+    float slicedistance = radius / stacks;
     float stacksize = M_PI / stacks;
     float stackAngle = 2 * M_PI / slices;
     int i, j;

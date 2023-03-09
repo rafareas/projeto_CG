@@ -1,20 +1,48 @@
+
+
 #define _USE_MATH_DEFINES
+#include <cstdint>
+#include <algorithm>
+#include <iomanip>
 #include <math.h>
+#include <cmath>
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <stdio.h>
+#include <stdlib.h>
 #include <string>
+#include <regex>
 #include <GL/glut.h>
 #include "generator/Include/Shape.hpp"
+#include "engine/include/tinyxml2.hpp"
+
+using namespace tinyxml2;
 
 using namespace std;
 
+
+#ifndef XMLCheckResult
+#define XMLCheckResult(a_eResult) if (a_eResult != XML_SUCCESS) { cout << "Error: " << a_eResult << endl;  }
+#endif
+
+
+
+int windowsizex = 800;
+int windowsizey = 800;
+
 vector<Triangle> allTriangles;
-float camX = 0.0;
-float camY = 0.0;
+float UPx  = 0.0, UPy = 1.0, UPz = 0.0;
+float camX = 5.0;
+float camY = 10.0;
 float camZ = 5.0;
-float camYaw = 0.0;
-float camPitch = 0.0;
+float camYaw = -0.8;
+float camPitch = -1.7;
+float camLookX = 0.0;
+float camLookY = 0.0;
+float camLookZ = 0.0;
+char* filemodel;
+
 
 
 void changeSize(int w, int h)
@@ -46,9 +74,15 @@ void renderScene(void)
 	glLoadIdentity();
 	float radius = 5.0 ;
 	glLoadIdentity();
+	
 	gluLookAt(camX, camY, camZ,         // Camera position
-		camX + sin(camYaw), camY + sin(camPitch), camZ - cos(camYaw), // Look at point
-		0.0, 1.0, 0.0);           // Up vector
+		camLookX+ sin(camYaw), camLookY + sin(camPitch), camLookZ - cos(camYaw), // Look at point
+		UPx, UPy, UPz);           // Up vector
+	/*
+	gluLookAt(camX, camY, camZ,         // Camera position
+		camLookX,camLookY,camLookZ, // Look at point
+		UPx, UPy, UPz);           // Up vector
+*/
 
 	// put axis drawing in here
 	glBegin(GL_LINES);
@@ -109,14 +143,14 @@ void ReadFile(string shape)
 	Triangle t;				  // Triangles to be saved
 	Point p1, p2, p3;		  // Points of the readen triangles
 
-	ifstream MyFile("../generator/shape.txt");
+	ifstream MyFile(shape);
 
 	if (!MyFile)
 		cout << "File not created!";
 	else
 	{
 		while (getline(MyFile, line))
-		{
+		{	
 			// Point 1 of the triangle
 			pos = line.find(delimiter);
 			value = line.substr(0, pos);
@@ -207,10 +241,10 @@ void processKeys(unsigned char key, int xx , int yy) {
 		camX += moveSpeed * sin(camYaw - 90 * (M_PI / 180.0));
 		camZ -= moveSpeed * cos(camYaw - 90 * (M_PI / 180.0));
 		break;
-	case 'e': // Rotate camera left
+	case 'e': // Rotate camera right
 		camYaw += rotateSpeed;
 		break;
-	case 'q': // Rotate camera right
+	case 'q': // Rotate camera left
 		camYaw -= rotateSpeed;
 		break;
 	case 'i': // Move camera up
@@ -219,9 +253,13 @@ void processKeys(unsigned char key, int xx , int yy) {
 	case 'k': // Move camera down
 		camY -= moveSpeed;
 		break;
+	case 'u': // Look up
+		camPitch += moveSpeed;
+		break;
+	case 'h': // look down
+		camPitch -= moveSpeed;
+		break;
 	}
-
-
 	glutPostRedisplay();
 
 }
@@ -243,29 +281,90 @@ void processSpecialKeys(int key, int xx, int yy) {
 		camX -= moveSpeed * sin(camYaw);
 		camZ += moveSpeed * cos(camYaw);
 		break;
-	case GLUT_KEY_LEFT: // Rotate camera left
+	case GLUT_KEY_RIGHT: // Rotate camera right 
 		camYaw += rotateSpeed;
 		break;
-	case GLUT_KEY_RIGHT: // Rotate camera right
+	case GLUT_KEY_LEFT: // Rotate camera left
 		camYaw -= rotateSpeed;
 		break;
 	}
 }
 
+void readxml(string path) {
 
-int main(int argc, char **argv)
-{
-	ReadFile("shape.txt");
+	XMLDocument xmlDoc;
+	XMLError eResult = xmlDoc.LoadFile(path.c_str());
+	XMLCheckResult(eResult);
+	XMLNode* pRoot = xmlDoc.FirstChild();
+	if (pRoot != nullptr) {
+
+		XMLElement* window = pRoot->FirstChildElement("window");
+		if (NULL != window) {
+			window->QueryIntAttribute("width", &windowsizex);
+			window->QueryIntAttribute("height", &windowsizey);
+		}
+
+		XMLElement* pCam = pRoot->FirstChildElement("camera");
+		if (NULL != pCam) {
+
+			XMLElement* pPos = pCam->FirstChildElement("position");
+			if (NULL != pPos) {
+				pPos->QueryFloatAttribute("x", &camX);
+				pPos->QueryFloatAttribute("y", &camY);
+				pPos->QueryFloatAttribute("z", &camZ);
+			}
+
+			XMLElement* pLookAt = pCam->FirstChildElement("lookAt");
+			float xx = 0, yy = 0, zz = 0;
+			if (NULL != pLookAt) {
+				pLookAt->QueryFloatAttribute("x", &camLookX);
+				pLookAt->QueryFloatAttribute("y", &camLookY);
+				pLookAt->QueryFloatAttribute("z", &camLookZ);
+			}
+
+			XMLElement* pUp = pCam->FirstChildElement("up");
+			if (NULL != pUp) {
+				pUp->QueryFloatAttribute("x", &UPx);
+				pUp->QueryFloatAttribute("y", &UPy);
+				pUp->QueryFloatAttribute("z", &UPz);
+			}
+		}
+		string path = "../generator/";
+		string filename;
+		XMLElement* pGroup = pRoot->FirstChildElement("group");
+		if (NULL != pGroup) {
+			XMLElement* pmodels= pGroup->FirstChildElement("models");
+			if (NULL != pmodels) {
+				XMLElement* pmodel = pmodels->FirstChildElement("model");
+				if (NULL != pmodel) {
+					while (pmodel)
+					{
+						filename = pmodel->Attribute("file");
+						filename = path + filename;
+						ReadFile(filename);
+						pmodel = pmodel->NextSiblingElement("model");
+					}
+				}
+			}
+		}	
+	}
+}
+
+int main(int argc, char **argv){
+
+	readxml("../test/x_test_files_phase_1/test_1_2.xml");
+	
 	// init GLUT and the window
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
 	glutInitWindowPosition(100, 100);
-	glutInitWindowSize(800, 800);
-	glutCreateWindow("CG@DI-UM");
+	glutInitWindowSize(windowsizex, windowsizey);
+	glutCreateWindow("Sistema Solar");
 
 	// Required callback registry 
 	glutDisplayFunc(renderScene);
 	glutReshapeFunc(changeSize);
+	glutIdleFunc(renderScene);
 
 	// Callback registration for keyboard processing
 	glutKeyboardFunc(processKeys);

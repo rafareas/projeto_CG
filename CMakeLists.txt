@@ -5,7 +5,7 @@ PROJECT(class1)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-add_executable(${PROJECT_NAME} main.cpp "generator/src/Cone.cpp" "generator/src/Plane.cpp" "generator/src/Triangle.cpp" "generator/src/Sphere.cpp" "generator/src/Box.cpp" "generator/src/Shape.cpp" "generator/src/Point.cpp" "generator/include/Cone.hpp" "generator/include/Plane.hpp" "generator/include/Triangle.hpp" "generator/include/Sphere.hpp" "generator/include/Box.hpp" "generator/include/Shape.hpp" "generator/include/Point.hpp")
+add_executable(${PROJECT_NAME} main.cpp "engine/src/tinyxml2.cpp" "engine/include/tinyxml2.hpp" "generator/src/Cone.cpp" "generator/src/Plane.cpp" "generator/src/Triangle.cpp" "generator/src/Sphere.cpp" "generator/src/Box.cpp" "generator/src/Shape.cpp" "generator/src/Point.cpp" "generator/include/Cone.hpp" "generator/include/Plane.hpp" "generator/include/Triangle.hpp" "generator/include/Sphere.hpp" "generator/include/Box.hpp" "generator/include/Shape.hpp" "generator/include/Point.hpp")
 
 find_package(OpenGL REQUIRED)
 include_directories(${OpenGL_INCLUDE_DIRS})
@@ -38,7 +38,7 @@ if  (WIN32)
 	
 else (WIN32) #Linux and Mac
 
-	set( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} Wno-deprecated")
+	set( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} Wno-deprecated")
 	find_package(GLUT REQUIRED)
 	include_directories(${GLUT_INCLUDE_DIR})
 	link_directories(${GLUT_LIBRARY_DIRS})
@@ -50,11 +50,3 @@ else (WIN32) #Linux and Mac
 	endif(NOT GLUT_FOUND)
 	
 endif(WIN32)
-
-
-
-
-
-
-
-
