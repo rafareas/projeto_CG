@@ -20,7 +20,7 @@ int main(int argc, char* argv[]) {
 
     //Criar triangulos para shape
     if(strcmp(shape,"plane") == 0) {
-        if (argc != 5) {
+        if (argc !=  5) {
             cout << "Numero de argumentos invalidos para " << shape;
             return 0;
         }

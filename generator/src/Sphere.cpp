@@ -6,7 +6,7 @@
 void Sphere::generateTriangles(int size, int stacks, int slices)
 {
     float radius = size / 1.0;
-    float slicedistance = radius / stacks;
+    float slicedistance = radius * 2.0 / stacks;
     float stacksize = M_PI / stacks;
     float stackAngle = 2 * M_PI / slices;
     int i, j;
@@ -39,6 +39,7 @@ void Sphere::generateTriangles(int size, int stacks, int slices)
     }
     //side of the sphere
     for (i = 1; i < stacks-1; i++) {
+
         y1 = radius - i * slicedistance;
         sliceRadius1 = sqrt(pow(radius, 2) - pow(y1, 2));
         i++;
@@ -46,8 +47,8 @@ void Sphere::generateTriangles(int size, int stacks, int slices)
         i--;
         sliceRadius2 = sqrt(pow(radius, 2) - pow(y2, 2));
         
-        for (j = 0; j < slices; j++)
-        {
+        for (j = 0; j < slices; j++){
+
             angle = j * stackAngle;
             p1 = Point(sin(angle) * sliceRadius1, y1, cos(angle) * sliceRadius1);
 

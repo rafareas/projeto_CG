@@ -42,7 +42,7 @@ float camLookX = 0.0;
 float camLookY = 0.0;
 float camLookZ = 0.0;
 char* filemodel;
-
+float fov = 45.0f, near = 1.0, far = 1000.0f;
 
 
 void changeSize(int w, int h)
@@ -60,7 +60,7 @@ void changeSize(int w, int h)
 	// Set the viewport to be the entire window
 	glViewport(0, 0, w, h);
 	// Set the perspective
-	gluPerspective(45.0f, ratio, 1.0f, 1000.0f);
+	gluPerspective(fov, ratio, near, far);
 	// return to the model view matrix mode
 	glMatrixMode(GL_MODELVIEW);
 }
@@ -82,7 +82,7 @@ void renderScene(void)
 	gluLookAt(camX, camY, camZ,         // Camera position
 		camLookX,camLookY,camLookZ, // Look at point
 		UPx, UPy, UPz);           // Up vector
-*/
+	*/
 
 	// put axis drawing in here
 	glBegin(GL_LINES);
@@ -328,6 +328,12 @@ void readxml(string path) {
 				pUp->QueryFloatAttribute("y", &UPy);
 				pUp->QueryFloatAttribute("z", &UPz);
 			}
+			XMLElement* pProjection = pCam->FirstChildElement("projection");
+			if (NULL != pProjection) {
+				pUp->QueryFloatAttribute("fov", &fov);
+				pUp->QueryFloatAttribute("near", &near);
+				pUp->QueryFloatAttribute("far", &far);
+			}
 		}
 		string path = "../generator/";
 		string filename;
@@ -337,8 +343,7 @@ void readxml(string path) {
 			if (NULL != pmodels) {
 				XMLElement* pmodel = pmodels->FirstChildElement("model");
 				if (NULL != pmodel) {
-					while (pmodel)
-					{
+					while (pmodel){
 						filename = pmodel->Attribute("file");
 						filename = path + filename;
 						ReadFile(filename);
@@ -352,7 +357,7 @@ void readxml(string path) {
 
 int main(int argc, char **argv){
 
-	readxml("../test/x_test_files_phase_1/test_1_2.xml");
+	readxml("../test/x_test_files_phase_1/test_1_5.xml");
 	
 	// init GLUT and the window
 	glutInit(&argc, argv);
