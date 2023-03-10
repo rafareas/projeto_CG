@@ -74,15 +74,15 @@ void renderScene(void)
 	glLoadIdentity();
 	float radius = 5.0 ;
 	glLoadIdentity();
-	
+	/*
 	gluLookAt(camX, camY, camZ,         // Camera position
 		camLookX+ sin(camYaw), camLookY + sin(camPitch), camLookZ - cos(camYaw), // Look at point
 		UPx, UPy, UPz);           // Up vector
-	/*
+	*/
 	gluLookAt(camX, camY, camZ,         // Camera position
 		camLookX,camLookY,camLookZ, // Look at point
 		UPx, UPy, UPz);           // Up vector
-	*/
+	
 
 	// put axis drawing in here
 	glBegin(GL_LINES);
