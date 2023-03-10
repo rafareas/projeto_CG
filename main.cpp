@@ -60,7 +60,7 @@ void changeSize(int w, int h)
 	// Set the viewport to be the entire window
 	glViewport(0, 0, w, h);
 	// Set the perspective
-	gluPerspective(fov, ratio, near, far);
+	gluPerspective( fov, ratio, near, far);
 	// return to the model view matrix mode
 	glMatrixMode(GL_MODELVIEW);
 }
@@ -330,9 +330,11 @@ void readxml(string path) {
 			}
 			XMLElement* pProjection = pCam->FirstChildElement("projection");
 			if (NULL != pProjection) {
-				pUp->QueryFloatAttribute("fov", &fov);
-				pUp->QueryFloatAttribute("near", &near);
-				pUp->QueryFloatAttribute("far", &far);
+				pProjection->QueryFloatAttribute("fov", &fov);
+				pProjection->QueryFloatAttribute("near", &near);
+				pProjection->QueryFloatAttribute("far", &far);
+				
+				
 			}
 		}
 		string path = "../generator/";
@@ -357,7 +359,7 @@ void readxml(string path) {
 
 int main(int argc, char **argv){
 
-	readxml("../test/x_test_files_phase_1/test_1_5.xml");
+	readxml("../test/x_test_files_phase_1/test_1_3.xml");
 	
 	// init GLUT and the window
 	glutInit(&argc, argv);
